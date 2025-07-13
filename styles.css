@@ -25,7 +25,8 @@
     font-weight: bold;
     margin-top: 50px;
 }
-.reset{
+.reset, .autoplay{
     padding: 10px 15px;
     font-size: 15px;
+    margin-right: 10px;
 }

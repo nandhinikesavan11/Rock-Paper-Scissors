@@ -43,27 +43,51 @@ function playerMove(playerChoice){
         score.losses++;
     }
 
-    
-
     localStorage.setItem('score', JSON.stringify(score));
     //since localStorage supports only strings we used json stringify
-
     updateScore();
+
     document.querySelector('.js-result').innerHTML = result;
     document.querySelector('.js-moves').innerHTML = `You <img src="images/${playerChoice.toLowerCase()}-emoji.png" class="move-icon"> <img src="images/${compMove.toLowerCase()}-emoji.png" class="move-icon">  Computer`;
 }
 
 function updateScore(){
-    document.querySelector('.js-scores')
-        .innerHTML = `Wins: ${score.wins}, Losses: ${score.losses}, Ties: ${score.ties}`;
+    document.querySelector('.js-scores').innerHTML =`Wins: ${score.wins}, Losses: ${score.losses}, Ties: ${score.ties}`;
 }
 
-document.querySelector('.js-reset-button')
-  .addEventListener('click', () => {
+
+document.querySelector('.js-reset-button').addEventListener('click', () => {
+    console.log('Reset button clicked');
     score.wins = 0;
     score.losses = 0;
     score.ties = 0;
     localStorage.setItem('score', JSON.stringify(score));
     updateScore();
-  });
+    document.querySelector('.js-result').innerHTML = '';
+    document.querySelector('.js-moves').innerHTML = '';
+});
+
+let isAutoplaying = false;
+let intervalId;
+
+
+function autoplay(){
+    if (!isAutoplaying){
+        intervalId  = setInterval(function(){
+            const moves = ['Rock', 'Paper', 'Scissors'];
+            const randomMove = moves[Math.floor(Math.random() * 3)];
+            playerMove(randomMove);
+        }, 1000);
+        isAutoplaying =true;
+        document.querySelector('.js-autoplay-button').innerText = 'Stop Autoplay';
+    }
+    else{
+        clearInterval(intervalId);
+        isAutoplaying = false;
+        document.querySelector('.js-autoplay-button').innerText = 'Autoplay';
+
+    }
+}
+
+
 
